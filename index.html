@@ -1,12 +1,428 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en" data-bs-theme="dark">
   <head>
-    <meta charset="utf-8">
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Craft</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://gist.githubusercontent.com/AndrewCraswell/106143d1bb5d4162689b9e1d89a2d0fb/raw/e6d187e8e2a4ef85551ee7d6f16cb1350a19dc39/gistfile1.txt" rel="stylesheet">
+    <link href="./assets/css/IosevkaWebFont.css" rel="stylesheet">
+    <link rel="favicon" href="./assets/img/favicon.ico">
+    <style type="text/css">
+      :root {
+        --bs-body-bg: #121212;
+        --bs-body-color: #fafafa;
+        --rpi-colour: #c51a4a;
+        --rpi-colour-rgb: 197,26,74;
+        --bs-code-color: var(--rpi-colour);
+        --bs-danger-rgb: var(--rpi-colour-rgb);
+      }
+      * {
+        font-family: 'Iosevka Web', 'Courier New', monospace;
+      }
+      html, body {
+        font-family: sans;
+        margin: 0;
+        padding: 0;
+      }
+      a {
+        color: var(--rpi-colour);
+      }
+      footer {
+        bottom: 0;
+        display: inline-block;
+        padding-top: 3em !important;
+        padding: 1.5em;
+        width: 100vw;
+      }
+      i.bi {
+        color: var(--rpi-colour);
+      }
+      nav * {
+        color: #fff !important;
+      }
+      nav a {
+        text-decoration: underline;
+      }
+      nav a.active {
+        text-decoration: none;
+        font-weight: 900;
+      }
+      p {
+        text-align: justify;
+        /*text-indent: 1.5em;*/
+      }
+      .accordion {
+        --bs-accordion-active-bg: unset;
+        --bs-accordion-active-color: var(--rpi-colour);
+        --bs-accordion-btn-focus-box-shadow: unset;
+      }
+      .accordion-button {
+        color: var(--rpi-colour);
+      }
+      .accordion-button {
+        font-weight: bold;
+      }
+      .accordion-button::after {
+        filter: grayscale(1);
+      }
+      .bg-nav-primary {
+        --bs-bg-opacity: 1;
+        background-color: rgba(197, 26, 74, var(--bs-bg-opacity)) !important;
+      }
+      .nav-item {
+        text-align: center;
+      }
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+      .sect-title {
+        margin-bottom: 3em !important;
+      }
+      .sect-title, .sect-title p {
+        text-align: center !important;
+        text-indent: unset;
+      }
+      #navbarSupportedContent {
+        flex-grow: unset !important;
+      }
+      span.drop::first-letter {
+        float: left;
+        font-size: 3em;      /* adjust size */
+        line-height: 1;
+        margin-right: 0.1em; /* space between dropcap and text */
+        font-weight: bold;   /* optional */
+        color: #333;         /* optional colour */
+      }
+    </style>
   </head>
   <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
+    <nav class="navbar navbar-expand-lg sticky-top bg-nav-primary mb-5">
+      <div class="container-fluid">
+        <div>
+          <a class="navbar-brand" href="#" onclick="showPage('home')">
+            <!--<img src="/assets/img/logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">-->
+            Pi Craft
+          </a>
+          <a href="#" onclick="navigator.clipboard.writeText(this.innerText);" style="text-decoration:none;">mc.picraft.org</a></span>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a id="home-link" href="#" onclick="showPage('home')" class="nav-link active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a id="status-link" href="#" onclick="showPage('status')" class="nav-link">Status</a>
+            </li>
+            <!--<li class="nav-item">
+              <a id="features-link" href="#" onclick="showPage('features')" class="nav-link">Features</a>
+            </li>-->
+            <li class="nav-item">
+              <a id="guidelines-link" href="#" onclick="showPage('guidelines')" class="nav-link">Guidelines</a>
+            </li>
+            <li class="nav-item">
+              <a id="join-link" href="#" onclick="showPage('join')" class="nav-link">Join</a>
+            </li>
+            <li class="nav-item">
+              <a id="map-link" href="http://mc.picraft.org:8100/#world:0:0:0:1500:0:0:0:1:flat" class="nav-link" target="_blank">Map</a>
+            </li>
+            <li class="nav-item">
+              <a id="qa-link" href="#" onclick="showPage('qa')" class="nav-link">Q&A</a>
+            </li>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div class="container">
+        <section id="home" class="page active">
+          <div class="sect-title text-center">
+            <h1>Welcome to Pi Craft!</h1>
+            <p>A small, LGBT-friendly Minecraft server.</p>
+          </div>
+          <h2><i class="bi bi-people-fill"></i> Who We Are</h2>
+          <p>This server started pretty simple: We just wanted somewhere that actually felt comfortable to log into. A lot of servers are either too chaotic or way too serious, and we wanted something in between. It's not just about Minecraft here, though. It's about having a place where people can relax, make something cool, or just talk if they feel like it. Everyone's got their own stuff going on outside the game, and sometimes it's nice to have a little escape where people actually get along. We're not perfect, and the server isn't either. But it's real, and we care about keeping it that way. If that sounds like something you'd want, you're welcome here. Visit our <a href="#" onclick="showPage('join');">Join</a> page to get started.</p>
+        </section>
+        <section id="status" class="page">
+          <div class="sect-title text-center">
+            <h1>Server Status</h1>
+            <div id="blocked" class="text-danger text-uppercase"></div>
+          </div>
+          <h2><i id="server-status-icon" class="bi bi-hdd-stack"></i> <span id="server-status">Loading...</span> <div style="display:inline-block;font-size:10px;vertical-align:middle;">Powered by<br><a href="https://mcsrvstat.us" target="_blank" style="text-decoration:none;">Minecraft Server Status API</a></div></h2>
+          <p>Last Updated: <span id="cache-time"></span></p>
+          <ul id="server-data">
+            <li>
+              <span id="server-software"></span><span id="mc-version"></span>
+            </li>
+            <li>
+              Players (<span id="players"></span>)
+              <ul id="player-list"></ul>
+            </li>
+          </ul>
+        </section>
+        <section id="join" class="page">
+          <div class="sect-title text-center">
+            <h1>How to Join</h1>
+          </div>
+          <h2><i class="bi bi-ui-checks"></i> Instructions</h2>
+          <ol>
+            <li>Join <a href="https://discord.com/invite/3hrtppJwzY" target="_blank">our Discord server</a>.</li>
+            <li>Enable <b>Direct Messages</b> for our server in your Discord Privacy settings.</li>
+            <li>Read the guidelines in <code><a href="https://discord.com/channels/1406402839449833492/1406402840024318098" target="_blank" style="text-decoration:none;">#guidelines</a></code>.</li>
+            <li>Complete the application process via the <b>Appy</b> bot in <code><a href="https://discord.com/channels/1406402839449833492/1412138942186393690" target="_blank" style="text-decoration:none;">#apply-for-whitelist</a></code>.</li>
+            <li>Wait for approval. This may take some time.</li>
+          </ol>
+        </section>
+        <section id="guidelines" class="page">
+          <div class="sect-title text-center">
+            <h1>Guidelines</h1>
+            Last Modified: 2025-09-03
+          </div>
+          <div class="pb-2">
+            <h2 class="mb-0 pb-0">Integrity</h2>
+            <small class="text-uppercase" style="top:-5px;position:relative;">Of the server</small>
+          </div>
+          <ul>
+            <li><b>Fair Play.</b> Exploits, hacks, or anything else that provide an unfair advantage are not allowed. Keep it fair for everyone.</li>
+            <li><b>Performance Impact.</b> Avoid doing stuff that could overload the server or make it crash. It doesn't have endless power.</li>
+          </ul>
+          <div class="pb-2">
+            <h2 class="mb-0 pb-0">Respect</h2>
+            <small class="text-uppercase" style="top:-5px;position:relative;">One another</small>
+          </div>
+          <ul>
+            <li><b>Final Say.</b> If staff tells you to do something, just do it. They're here to keep things running smooth, not ruin your fun. Incidents can be reviewed afterward.</li>
+            <li><b>No Griefing.</b> Don't modify builds, steal, or otherwise grief players. If you don't ask permission then you likely don't have it.</li>
+            <li><b>Words Hurt.</b> Harassment, bullying, and discrimination have no place here. If someone asks you to stop, just stop.</li>
+          </ul>
+          <div class="pb-2">
+            <h2 class="mb-0 pb-0">Safety</h2>
+            <small class="text-uppercase" style="top:-5px;position:relative;">For everyone</small>
+          </div>
+          <ul>
+            <li><b>Be Real.</b> Don't knowingly misrepresent yourself.</li>
+            <li><b>Stranger Danger.</b> Don't ask for or provide personally identifiable details.</li>
+          </ul>
+          <div class="pb-2">
+            <h2 class="mb-0 pb-0">Legal</h2>
+            <small class="text-uppercase" style="top:-5px;position:relative;">For compliance</small>
+          </div>
+          <ul>
+            <li><b><a href="https://discord.com/terms/" target="_blank">Discord's Terms of Service</a></b></li>
+            <li><b><a href="https://www.minecraft.net/en-us/eula" target="_blank">Minecraft EULA</a></b></li>
+            <li><b>Disclaimer.</b> We retain the right to add, change, or remove any and all content of our site and servers, in part or in full, at any time. Announcements made on Discord will serve as proper notice of changes and will become effective immediately.</li>
+            <li><b>Notice.</b> Any depictions of gore, sexual content, or other severely obscene material and behaviour will result in an immediate ban. Criminal activity will be reported to law enforcement.</li>
+          </ul>
+        </section>
+        <section id="qa" class="page">
+          <div class="sect-title text-center">
+            <h1>Questions &amp; Answers</h1>
+          </div>
+          <div class="accordion accordion-flush" id="accordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Why is the server called Pi Craft?
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  The server is running from not just one but &#10024; TWO &#10024; 8 GB <a href="https://www.raspberrypi.com/products/raspberry-pi-5/" target="_blank">Raspberry Pi 5</a>s.
+                </div>
+              </div>
+            </div>
+            <!--<div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false" aria-controls="flush-collapseNine">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTen" aria-expanded="false" aria-controls="flush-collapseTen">
+                  QUESTION
+                </button>
+              </h2>
+              <div id="flush-collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  ANSWER
+                </div>
+              </div>
+            </div>
+          </div>-->
+        </section>
+      </div>
+    </main>
+    <footer class="text-center">
+      Copyright (c) 2025, <a href="https://github.com/PanicAtTheKernl" target="_blank">PanicAtTheKernl</a>.
+      <br>
+      Website by <a href="https://degghre.github.io" target="_blank">Degghre</a>.
+    </footer>
+    <script>
+      function showPage(pageId) {
+        // Hide all pages
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => page.classList.remove('active'));
+        // Show selected page
+        document.getElementById(pageId).classList.add('active');
+        // Update nav links
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => link.classList.remove('active'));
+        const navLinkBtn = document.getElementById(pageId + '-link');
+        navLinkBtn.classList.add('active');
+      }
+    </script>
+    <script type="text/javascript">
+      const serverIP = 'mc.picraft.org';
+      fetch(`https://api.mcsrvstat.us/2/${serverIP}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.online) {
+            // Unix timestamp of cached time logic
+            let d = new Date(data.debug.cachetime * 1000);
+            let year = d.getFullYear();
+            let month = String(d.getMonth() + 1).padStart(2, '0');
+            let day = String(d.getDate()).padStart(2, '0');
+            let hours = String(d.getHours()).padStart(2, '0');
+            let minutes = String(d.getMinutes()).padStart(2, '0');
+            let seconds = String(d.getSeconds()).padStart(2, '0');
+            document.getElementById('cache-time').innerHTML = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} `;
+            // Other data
+            document.getElementById('server-status-icon').classList.remove('bi-hdd-stack');
+            document.getElementById('server-status-icon').classList.add('bi-hdd-stack-fill');
+            document.getElementById('server-status').innerText = "Online";
+            if (data.eula_blocked == true) {
+              document.getElementById('blocked').innerHTML = "Pi Craft has been blocked by Mojang!";
+            }
+            document.getElementById('players').innerHTML = `${data.players.online}/${data.players.max}`;
+            if (data.players.online > 0) {
+              data.players.list.forEach(player => {
+                const li = document.createElement("li");
+                li.innerHTML = player;
+                document.getElementById("player-list").appendChild(li);
+              });
+            }
+            if (data.software) {
+              document.getElementById('server-software').innerHTML = `${data.software} for `;
+            }
+            if (data.debug.bedrock == true) {
+              document.getElementById('mc-version').innerHTML = `Minecraft Bedrock Edition ${data.version}`;
+            } else {
+              document.getElementById('mc-version').innerHTML = `Minecraft Java Edition ${data.version}`;
+            }
+          } else {
+            document.getElementById('server-data').remove();
+            document.getElementById('server-status').innerText = "Offline";
+          }
+        })
+        .catch(error => {
+          console.log('Error checking server:', error);
+        });
+
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous">
+    </script>
   </body>
 </html>
