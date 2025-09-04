@@ -63,12 +63,11 @@
       }
       .accordion-button {
         color: var(--rpi-colour);
-      }
-      .accordion-button {
         font-weight: bold;
       }
       .accordion-button::after {
-        filter: grayscale(1);
+        --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23c51a4a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708'/%3e%3c/svg%3e") !important;
+        --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23c51a4a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708'/%3e%3c/svg%3e") !important;
       }
       .bg-nav-primary {
         --bs-bg-opacity: 1;
@@ -93,14 +92,6 @@
       #navbarSupportedContent {
         flex-grow: unset !important;
       }
-      span.drop::first-letter {
-        float: left;
-        font-size: 3em;      /* adjust size */
-        line-height: 1;
-        margin-right: 0.1em; /* space between dropcap and text */
-        font-weight: bold;   /* optional */
-        color: #333;         /* optional colour */
-      }
     </style>
   </head>
   <body>
@@ -124,9 +115,6 @@
             <li class="nav-item">
               <a id="status-link" href="#" onclick="showPage('status')" class="nav-link">Status</a>
             </li>
-            <!--<li class="nav-item">
-              <a id="features-link" href="#" onclick="showPage('features')" class="nav-link">Features</a>
-            </li>-->
             <li class="nav-item">
               <a id="guidelines-link" href="#" onclick="showPage('guidelines')" class="nav-link">Guidelines</a>
             </li>
@@ -157,14 +145,14 @@
             <h1>Server Status</h1>
             <div id="blocked" class="text-danger text-uppercase"></div>
           </div>
-          <h2><i id="server-status-icon" class="bi bi-hdd-stack"></i> <span id="server-status">Loading...</span> <div style="display:inline-block;font-size:10px;vertical-align:middle;">Powered by<br><a href="https://mcsrvstat.us" target="_blank" style="text-decoration:none;">Minecraft Server Status API</a></div></h2>
-          <p>Last Updated: <span id="cache-time"></span></p>
+          <h2><i id="server-status-icon" class="bi bi-hdd-stack"></i> <span id="server-status">Loading...</span> <div style="display:inline-block;font-size:10px;vertical-align:middle;">Powered by<br><a href="https://mcsrvstat.us/server/mc.picraft.org" target="_blank" style="text-decoration:none;">Minecraft Server Status API</a></div></h2>
+          <p>Last Updated: <span id="cache-time">Loading...</span></p>
           <ul id="server-data">
             <li>
-              <span id="server-software"></span><span id="mc-version"></span>
+              <span id="server-software">Version...</span><span id="mc-version"></span>
             </li>
             <li>
-              Players (<span id="players"></span>)
+              <span id="players">Players...</span> <span id="player-count"></span>
               <ul id="player-list"></ul>
             </li>
           </ul>
@@ -393,7 +381,8 @@
             if (data.eula_blocked == true) {
               document.getElementById('blocked').innerHTML = "Pi Craft has been blocked by Mojang!";
             }
-            document.getElementById('players').innerHTML = `${data.players.online}/${data.players.max}`;
+            document.getElementById('players').innerHTML = 'Players ';
+            document.getElementById('player-count').innerHTML = `(${data.players.online}/${data.players.max})`;
             if (data.players.online > 0) {
               data.players.list.forEach(player => {
                 const li = document.createElement("li");
@@ -405,9 +394,9 @@
               document.getElementById('server-software').innerHTML = `${data.software} for `;
             }
             if (data.debug.bedrock == true) {
-              document.getElementById('mc-version').innerHTML = `Minecraft Bedrock Edition ${data.version}`;
+              document.getElementById('mc-version').innerHTML = `Version: Minecraft Bedrock Edition ${data.version}`;
             } else {
-              document.getElementById('mc-version').innerHTML = `Minecraft Java Edition ${data.version}`;
+              document.getElementById('mc-version').innerHTML = `Version: Minecraft Java Edition ${data.version}`;
             }
           } else {
             document.getElementById('server-data').remove();
