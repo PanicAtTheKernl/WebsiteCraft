@@ -146,7 +146,10 @@
             <div id="blocked" class="text-danger text-uppercase"></div>
           </div>
           <h2><i id="server-status-icon" class="bi bi-hdd-stack"></i> <span id="server-status">Loading...</span> <div style="display:inline-block;font-size:10px;vertical-align:middle;">Powered by<br><a href="https://mcsrvstat.us/server/mc.picraft.org" target="_blank" style="text-decoration:none;">Minecraft Server Status API</a></div></h2>
-          <p>Last Updated: <span id="cache-time">Loading...</span></p>
+          <p>
+            Last Updated: <span id="cache-time">Loading...</span><br>
+            Next Update: <span id="expire-time">Loading...</span>
+          </p>
           <ul id="server-data">
             <li>
               <span id="server-software">Version...</span><span id="mc-version"></span>
@@ -360,20 +363,32 @@
       }
     </script>
     <script type="text/javascript">
+      // Look, I'm not an expert with JavaScript. It works. Calm down.
       const serverIP = 'mc.picraft.org';
       fetch(`https://api.mcsrvstat.us/2/${serverIP}`)
         .then(response => response.json())
         .then(data => {
-          if (data.online) {
+          if (data) {
             // Unix timestamp of cached time logic
             let d = new Date(data.debug.cachetime * 1000);
+            let d2 = new Date(data.debug.cacheexpire * 1000);
             let year = d.getFullYear();
+            let year2 = d2.getFullYear();
             let month = String(d.getMonth() + 1).padStart(2, '0');
+            let month2 = String(d2.getMonth() + 1).padStart(2, '0');
             let day = String(d.getDate()).padStart(2, '0');
+            let day2 = String(d2.getDate()).padStart(2, '0');
             let hours = String(d.getHours()).padStart(2, '0');
+            let hours2 = String(d2.getHours()).padStart(2, '0');
             let minutes = String(d.getMinutes()).padStart(2, '0');
+            let minutes2 = String(d2.getMinutes()).padStart(2, '0');
             let seconds = String(d.getSeconds()).padStart(2, '0');
-            document.getElementById('cache-time').innerHTML = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} `;
+            let seconds2 = String(d2.getSeconds()).padStart(2, '0');
+            document.getElementById('cache-time').innerHTML = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            document.getElementById('expire-time').innerHTML = `${year2}-${month2}-${day2} ${hours2}:${minutes2}:${seconds2}`;
+            console.log(d, d2);
+          }
+          if (data.online) {
             // Other data
             document.getElementById('server-status-icon').classList.remove('bi-hdd-stack');
             document.getElementById('server-status-icon').classList.add('bi-hdd-stack-fill');
@@ -381,8 +396,8 @@
             if (data.eula_blocked == true) {
               document.getElementById('blocked').innerHTML = "Pi Craft has been blocked by Mojang!";
             }
-            document.getElementById('players').innerHTML = 'Players ';
-            document.getElementById('player-count').innerHTML = `(${data.players.online}/${data.players.max})`;
+            document.getElementById('players').innerHTML = 'Players: ';
+            document.getElementById('player-count').innerHTML = `${data.players.online}/${data.players.max}`;
             if (data.players.online > 0) {
               data.players.list.forEach(player => {
                 const li = document.createElement("li");
@@ -391,12 +406,14 @@
               });
             }
             if (data.software) {
-              document.getElementById('server-software').innerHTML = `${data.software} for `;
+              document.getElementById('server-software').innerHTML = `Version: ${data.software} for `;
+            } else {
+              document.getElementById('server-software').innerHTML = 'Version: ';
             }
             if (data.debug.bedrock == true) {
-              document.getElementById('mc-version').innerHTML = `Version: Minecraft Bedrock Edition ${data.version}`;
+              document.getElementById('mc-version').innerHTML = `Minecraft Bedrock Edition ${data.version}`;
             } else {
-              document.getElementById('mc-version').innerHTML = `Version: Minecraft Java Edition ${data.version}`;
+              document.getElementById('mc-version').innerHTML = `Minecraft Java Edition ${data.version}`;
             }
           } else {
             document.getElementById('server-data').remove();
@@ -404,7 +421,26 @@
           }
         })
         .catch(error => {
-          console.log('Error checking server:', error);
+          let now = new Date();
+          let d = new Date(now.getTime());
+          let d2 = new Date(now.getTime() + 1000);
+          let year = d.getFullYear();
+          let year2 = d2.getFullYear();
+          let month = String(d.getMonth() + 1).padStart(2, '0');
+          let month2 = String(d2.getMonth() + 1).padStart(2, '0');
+          let day = String(d.getDate()).padStart(2, '0');
+          let day2 = String(d2.getDate()).padStart(2, '0');
+          let hours = String(d.getHours()).padStart(2, '0');
+          let hours2 = String(d2.getHours()).padStart(2, '0');
+          let minutes = String(d.getMinutes()).padStart(2, '0');
+          let minutes2 = String(d2.getMinutes()).padStart(2, '0');
+          let seconds = String(d.getSeconds()).padStart(2, '0');
+          let seconds2 = String(d2.getSeconds()).padStart(2, '0');
+          document.getElementById('server-data').remove();
+          document.getElementById('server-status').innerText = "Unreachable";
+          document.getElementById('cache-time').innerHTML = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+          document.getElementById('expire-time').innerHTML = `${year2}-${month2}-${day2} ${hours2}:${minutes2}:${seconds2}`;
+          document.getElementById('blocked').innerHTML = "Unable to retrieve data from Minecraft Server Status API. Is it down?";
         });
 
     </script>
